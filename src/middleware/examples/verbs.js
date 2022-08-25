@@ -5,7 +5,7 @@ const verbMiddleware = (req, res, next) => {
   }else{
     next();
   }
-  next();
+  
 }
 
 module.exports = { verbMiddleware }
