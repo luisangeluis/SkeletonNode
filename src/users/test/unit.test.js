@@ -42,7 +42,7 @@ describe('Test unitario de mis usuarios', () => {
 // const sum = (a,b) => {
 //   return a+b;
 // }
-// describe('Test unitario de mis usuarios',()=>{
+// de scribe('Test unitario de mis usuarios',()=>{
 //   it('Deberia retornar 8',()=>{
 //       const miFuncionEjecutada =sum(6,2);
 //       assert.equal(miFuncionEjecutada,8,'Ups no es un 8');
