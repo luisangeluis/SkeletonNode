@@ -10,7 +10,7 @@ describe('Suite de test de integracion de usuarios', () => {
   it('Should return 204 when I delete my own user with my credentials', (done) => {
     chai.request(app)
       .delete('/api/v1/users/me')
-      .set('Authorization', 'JWT')
+      .set('Authorization', 'JWT my-token')
       .end((err, res) => {
         chai.assert.equal(res.status, 204);
       })

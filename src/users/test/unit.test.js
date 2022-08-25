@@ -37,7 +37,17 @@ describe('Test unitario de mis usuarios', () => {
 
     done();
   })
+
+  it('Should return the user  when I sent an invalid ID',(done)=>{
+    const data  = usersControllers.getUserById('1');
+    
+    assert.typeOf(data,'boolean');
+    assert.equal(data,false);
+
+    done();
+  })
 })
+
 
 // const sum = (a,b) => {
 //   return a+b;

@@ -28,6 +28,10 @@ app.listen(3000, () => {
   console.log('server started at port:3000');
 });
 
+//FORMAS DE EXPORTAR
+// exports.default =app;
+// module.exports=app;
+// exports.app=app;
 module.exports={
   app
 }
