@@ -11,13 +11,6 @@ router
   .route('/') //* /api/v1/users/
   .get(usersServices.getAll)
 
-// router.post('/upload', upload.single('image'), (req, res) => {
-//   res.status(200).json({
-//     message: 'Image uploaded succesfully',
-//     data: req.file
-//   });
-// })
-//TO DO GET Y DELETE
 router
   .route('/me')
   .put(passport.authenticate('jwt', { session: false }), usersServices.editMyUser)
@@ -26,7 +19,7 @@ router
 
 router
   .route('/me/profile-img')
-  .post(passport.authenticate('jwt', { session: false }),upload.single('profile_img'),)
+  .post(passport.authenticate('jwt', { session: false }),upload.single('profile_img'),usersServices.postProfileImg)
 
 router
   .route('/:id')
