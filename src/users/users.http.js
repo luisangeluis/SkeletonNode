@@ -166,6 +166,11 @@ const removeMyUser = (req, res) => {
   }
 };
 
+const postProfileImg = (req, res) => {
+  const userId = req.user.id;
+  const imgPath =req.hostname+'8000'+'/api/v1/uploads'+req.file.filename;
+  const data =userControllers.editProfileImg(userId)
+}
 module.exports = {
   getAll,
   getById,

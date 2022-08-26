@@ -104,11 +104,23 @@ const getUserByEmail = (email) => {
   return data.length > 0 ? data[0] : false;
 }
 
+const editProfileImg=(userId,imgUrl)=>{
+const index =userDB.findIndex(user=>user.id===userId);
+
+  if(index!==-1){
+    userDB[index].profile_image=imgUrl;
+    return userDB[index];
+  }
+
+  return false;
+}
+
 module.exports = {
   getAllUsers,
   getUserById,
   createUser,
   editUser,
   deleteUser,
-  getUserByEmail
+  getUserByEmail,
+  editProfileImg
 }

@@ -6,8 +6,14 @@ require('./middleware/auth.middleware')(passport);
 //Archivos de rutas
 const usersRouter = require('./users/users.routes').router
 const authRouter = require('./auth/auth.routes').router
+
+const {db} = require('./utils/database');
 //Configuraciones iniciales
 const app = express();
+
+db.authenticate()
+  .then(res=>console.log('database autenticate'))
+  .catch(error=>console.log(error))
 //para que el body de la peticion no salga undefined
 app.use(express.json());
 
