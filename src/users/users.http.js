@@ -172,6 +172,7 @@ const postProfileImg = (req, res) => {
   const data =userControllers.editProfileImg(userId,imgPath);
 
   res.status(200).json(data);
+
 }
 module.exports = {
   getAll,

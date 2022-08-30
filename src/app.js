@@ -3,7 +3,9 @@ const express = require('express');
 const passport = require('passport');
 const { verbMiddleware } = require('./middleware/examples/verbs');
 require('./middleware/auth.middleware')(passport);
+
 const path =require('path');
+
 //Archivos de rutas
 const usersRouter = require('./users/users.routes').router
 const authRouter = require('./auth/auth.routes').router

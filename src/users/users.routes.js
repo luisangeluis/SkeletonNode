@@ -11,6 +11,7 @@ router
   .route('/') //* /api/v1/users/
   .get(usersServices.getAll)
 
+
 //TO DO GET Y DELETE
 router.route('/me')
   .put(passport.authenticate('jwt', { session: false }), usersServices.editMyUser)
@@ -20,6 +21,7 @@ router.route('/me')
 router.route('/me/profile-img')
   .post(passport.authenticate('jwt', { session: false }),upload.single('profile_img'),usersServices.postProfileImg)
   // .get(passport.authenticate('jwt', { session: false }),);
+
 router
   .route('/:id')
   .get(passport.authenticate('jwt', { session: false }), usersServices.getById)
