@@ -11,23 +11,15 @@ router
   .route('/') //* /api/v1/users/
   .get(usersServices.getAll)
 
-// router.post('/upload', upload.single('image'), (req, res) => {
-//   res.status(200).json({
-//     message: 'Image uploaded succesfully',
-//     data: req.file
-//   });
-// })
 //TO DO GET Y DELETE
-router
-  .route('/me')
+router.route('/me')
   .put(passport.authenticate('jwt', { session: false }), usersServices.editMyUser)
   .get(passport.authenticate('jwt', { session: false }), usersServices.getMyUser)
   .delete(passport.authenticate('jwt', { session: false }), usersServices.removeMyUser);
 
-router
-  .route('/me/profile-img')
-  .post(passport.authenticate('jwt', { session: false }),upload.single('profile_img'),)
-
+router.route('/me/profile-img')
+  .post(passport.authenticate('jwt', { session: false }),upload.single('profile_img'),usersServices.postProfileImg)
+  // .get(passport.authenticate('jwt', { session: false }),);
 router
   .route('/:id')
   .get(passport.authenticate('jwt', { session: false }), usersServices.getById)

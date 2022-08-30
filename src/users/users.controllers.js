@@ -1,5 +1,6 @@
 const uuid = require('uuid');
 const { hashPassword } = require('../utils/crypt');
+const Users =require('../models/user.model');
 
 const userDB = [
   {
@@ -11,7 +12,7 @@ const userDB = [
     "phone": "1234567890",
     "birthday_date": "22/10/2000",
     "rol": "normal",
-    "profile_image": "a",
+    "profile_image": "localhost:3000/api/v1/uploads1661728653826-proyecto.png",
     "country": "mexico",
     "active": true,
     "verified": false
@@ -29,11 +30,43 @@ const userDB = [
     "country": "mexico",
     "active": true,
     "verified": false
+  },
+  {
+    "id": "d57cfe64-3840-4cc7-b765-c0d97caf4246",
+    "first_name": "user1",
+    "last_name": "user",
+    "email": "user1@example.com",
+    "password": "$2b$10$VnXKaotZKlkwqyER6vXrS.AJwkG7GsLleWoaNot9f3TtGtJ7ZTuhe",
+    "phone": "",
+    "birthday_date": "10/10/2000",
+    "rol": "normal",
+    "profile_image": "",
+    "country": "mexico",
+    "active": true,
+    "verified": false
+  },
+  {
+    "id": "8dd772dc-8da0-45f9-9766-5ab6651dd0c7",
+    "first_name": "user2",
+    "last_name": "user2",
+    "email": "user2@example.com",
+    "password": "$2b$10$7zHY4DSRvc49KKV.Uk015OdVZd.P6SRYgL25qBqwSxI3evVpI/b6C",
+    "phone": "",
+    "birthday_date": "10/10/2000",
+    "rol": "admin",
+    "profile_image": "",
+    "country": "mexico",
+    "active": true,
+    "verified": false
   }
 ];
 
 const getAllUsers = () => {
-  return userDB;
+
+  const data =Users.findAll();
+  return data;
+
+  // return userDB;
   //select * from users;
 }
 
