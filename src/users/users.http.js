@@ -1,19 +1,33 @@
 const userControllers = require('./users.controllers');
 
 const getAll = (req, res) => {
-  const data = userControllers.getAllUsers();
-  res.status(200).json({ items: data.length, users: data });
+  userControllers.getAllUsers()
+    .then(response => {
+      res.status(200).json({ items: response.length, users: response });
+    })
+    .catch(err => {
+      res.status(400).json({ err })
+    });
 };
 
 const getById = (req, res) => {
   const id = req.params.id;
-  const data = userControllers.getUserById(id);
+  userControllers.getUserById(id)
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(err => {
+      res.status(404).json({ message: `El usuario con el id ${id} no existe` });
+    })
 
-  if (data) {
-    res.status(200).json(data);
-  } else {
-    res.status(404).json({ message: `El usuario con el id ${id} no existe` });
-  }
+
+  // const data = userControllers.getUserById(id);
+
+  // if (data) {
+  //   res.status(200).json(data);
+  // } else {
+  //   res.status(404).json({ message: `El usuario con el id ${id} no existe` });
+  // }
 };
 
 const register = (req, res) => {
@@ -43,11 +57,17 @@ const register = (req, res) => {
       },
     });
   } else {
-    const response = userControllers.createUser(data);
-    return res.status(201).json({
-      message: `User created sucefully with id:${response.id}`,
-      user: response,
-    });
+    userControllers.createUser(data)
+      .then(response => {
+        res.status(201).json({
+          message: `User created sucefully with id:${response.id}`,
+          user: response,
+        })
+      })
+      .catch(err => {
+        res.status(400).json({ err })
+      })
+
   }
 };
 
@@ -168,8 +188,8 @@ const removeMyUser = (req, res) => {
 
 const postProfileImg = (req, res) => {
   const userId = req.user.id;
-  const imgPath =req.hostname+':3000'+'/api/v1/uploads/'+req.file.filename;
-  const data =userControllers.editProfileImg(userId,imgPath);
+  const imgPath = req.hostname + ':3000' + '/api/v1/uploads/' + req.file.filename;
+  const data = userControllers.editProfileImg(userId, imgPath);
 
   res.status(200).json(data);
 

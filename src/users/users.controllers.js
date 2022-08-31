@@ -1,6 +1,6 @@
 const uuid = require('uuid');
 const { hashPassword } = require('../utils/crypt');
-const Users =require('../models/user.model');
+const Users = require('../models/user.model');
 
 const userDB = [
   {
@@ -61,36 +61,52 @@ const userDB = [
   }
 ];
 
-const getAllUsers = () => {
+const getAllUsers = async () => {
 
-  const data =Users.findAll();
+  const data = await Users.findAll({
+    attributes: {
+      exclude: ['password']
+    }
+  });
   return data;
 
   // return userDB;
   //select * from users;
 }
 
-const getUserById = (id) => {
-  const data = userDB.filter(item => item.id === id);
-  return data.length > 0 ? data[0] : false;
+const getUserById = async (id) => {
+
+  const data = await Users.findOne({
+    where: {
+      id: id
+    },
+    attributes: {
+      exclude: ['password']
+    }
+  })
+  return data;
+  // const data =await userDB.filter(item => item.id === id);
+  // return data.length > 0 ? data[0] : false;
 
 }
+// TODO REVISAR EL HTTP de register
+const createUser = async (data) => {
+   const newUser = await Users.create({
+    id: uuid.v4(), 
+    first_name: data.first_name,
+    last_name: data.last_name,
+    email: data.email,
+    password: hashPassword(data.password),
+    phone: data.phone,
+    birthday_date: data.birthday_date,
+    rol: 'normal',
+    profile_image: data.profile_image,
+    country: data.country,
+    active: true,
+    verified: false,
+  })
 
-const createUser = (data) => {
-  const newUser = {
-    id: uuid.v4(), //obligatorio
-    first_name: data.first_name,//obligatorio
-    last_name: data.last_name,//obligatorio
-    email: data.email,//obligatorio y unico
-    password: hashPassword(data.password),//obligatorio
-    phone: data.phone ? data.phone : '',//unico
-    birthday_date: data.birthday_date,//obligatorio
-    rol: 'normal',//obligatorio y por defecto normal
-    profile_image: data.profile_image ? data.profile_image : '',
-    country: data.country,//obligatorio
-    active: true,//obligatorio y por defecto true
-    verified: false,//obligatorio y por defecto false
-  }
+  
 
   userDB.push(newUser);
   return newUser;
@@ -137,11 +153,11 @@ const getUserByEmail = (email) => {
   return data.length > 0 ? data[0] : false;
 }
 
-const editProfileImg=(userId,imgUrl)=>{
-const index =userDB.findIndex(user=>user.id===userId);
+const editProfileImg = (userId, imgUrl) => {
+  const index = userDB.findIndex(user => user.id === userId);
 
-  if(index!==-1){
-    userDB[index].profile_image=imgUrl;
+  if (index !== -1) {
+    userDB[index].profile_image = imgUrl;
     return userDB[index];
   }
 

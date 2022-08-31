@@ -63,7 +63,7 @@ const Users = db.define('users', {
       isUrl: true
     }
   },
-  coutry: {
+  country: {
     allowNull: false,
     type: DataTypes.STRING,
 
