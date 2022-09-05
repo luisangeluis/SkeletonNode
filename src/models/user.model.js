@@ -66,8 +66,7 @@ const Users = db.define('users', {
   },
   role: {
     allowNull: false,
-    type: DataTypes.STRING,
-    // defaultValue: 'normal'
+    type: DataTypes.UUID
   },
   address:{
     type: DataTypes.STRING

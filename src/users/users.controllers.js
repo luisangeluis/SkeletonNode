@@ -63,7 +63,7 @@ const getUserById = async (id) => {
 }
 // TODO REVISAR EL HTTP de register
 const createUser = async (data) => {
-  
+
   const newUser = await Users.create({
     ...data,
     id: uuid.v4(),
@@ -92,34 +92,60 @@ const createUser = async (data) => {
 
 }
 
-const editUser = (id, data) => {
-  const index = userDB.findIndex(user => user.id === id);
+const editUser = async (userId, data, userRol) => {
 
-  if (index !== -1) {
-    userDB[index] = {
-      id: id,
-      first_name: data.first_name,
-      last_name: data.last_name,
-      email: data.email,
-      password: userDB[index].password,
-      phone: data.phone,
-      birthday_date: data.birthday_date,
-      rol: data.rol,
-      profile_image: data.profile_image ? data.profile_image : '',
-      country: data.country,
-      active: data.active,
-      verified: false,
-    }
-    return userDB[index];
+  if (userRol === 'admin') {
+    const { id, password, verified, ...newData } = data;
+    const response = Users.update({
+      //Valores que quiero actualizar
+      ...newData
+    }, {
+      where: {
+        id: userId
+      }
+    });
+
+    return response;
   } else {
-    return createUser(data);
+    const { id, password, verified, role, ...newData } = data;
+    const response = Users.update({
+      //Valores que quiero actualizar
+      ...newData
+    }, {
+      where: {
+        id: userId
+      }
+    });
+
+    return response;
   }
+
+  // const index = userDB.findIndex(user => user.id === id);
+  // if (index !== -1) {
+  //   userDB[index] = {
+  //     id: id,
+  //     first_name: data.first_name,
+  //     last_name: data.last_name,
+  //     email: data.email,
+  //     password: userDB[index].password,
+  //     phone: data.phone,
+  //     birthday_date: data.birthday_date,
+  //     rol: data.rol,
+  //     profile_image: data.profile_image ? data.profile_image : '',
+  //     country: data.country,
+  //     active: data.active,
+  //     verified: false,
+  //   }
+  //   return userDB[index];
+  // } else {
+  //   return createUser(data);
+  // }
 }
 
-const deleteUser = async(id) => {
+const deleteUser = async (id) => {
   const data = await Users.destroy({
-    where:{
-      id:id
+    where: {
+      id: id
     }
   })
 
@@ -127,20 +153,40 @@ const deleteUser = async(id) => {
 
 }
 
-const getUserByEmail = (email) => {
-  const data = userDB.filter(item => item.email === email);
-  return data.length > 0 ? data[0] : false;
+const getUserByEmail = async(email) => {
+  const response = await Users.findOne({
+    where: {
+      email
+    },
+    attributes: {
+      exclude: ['password']
+    }
+  })
+  return response;
+  // const data = userDB.filter(item => item.email === email);
+  // return data.length > 0 ? data[0] : false;
 }
 
-const editProfileImg = (userId, imgUrl) => {
-  const index = userDB.findIndex(user => user.id === userId);
+const editProfileImg = async(userId, imgUrl) => {
 
-  if (index !== -1) {
-    userDB[index].profile_image = imgUrl;
-    return userDB[index];
-  }
+  const response = await Users.update({
+    profileImage:imgUrl
+  },{
+    where:{
+      id:userId
+    }
+  })
 
-  return false;
+  return response;
+
+  // const index = userDB.findIndex(user => user.id === userId);
+
+  // if (index !== -1) {
+  //   userDB[index].profile_image = imgUrl;
+  //   return userDB[index];
+  // }
+
+  // return false;
 }
 
 module.exports = {

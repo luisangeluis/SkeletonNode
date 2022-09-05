@@ -40,8 +40,10 @@ const register = (req, res) => {
   if (
     !data.firstName ||
     !data.lastName ||
+    !data.gender ||
     !data.email ||
     !data.password ||
+    !data.phone ||
     !data.birthdayDate ||
     !data.country
   ) {
