@@ -18,34 +18,6 @@ const userDB = [
     "verified": false
   },
   {
-    "id": "6db40652-e47a-4edb-81c6-335a32923e00",
-    "first_name": "angel",
-    "last_name": "gonzalez",
-    "email": "angel@correo.com",
-    "password": "$2b$10$3utjg6sAnMzdW956.Vd2JeOxql.QCro4KELFqHiKTzmSkddiK1ZqW",
-    "phone": "1234567890",
-    "birthday_date": "22/10/1999",
-    "rol": "normal",
-    "profile_image": "a",
-    "country": "mexico",
-    "active": true,
-    "verified": false
-  },
-  {
-    "id": "d57cfe64-3840-4cc7-b765-c0d97caf4246",
-    "first_name": "user1",
-    "last_name": "user",
-    "email": "user1@example.com",
-    "password": "$2b$10$VnXKaotZKlkwqyER6vXrS.AJwkG7GsLleWoaNot9f3TtGtJ7ZTuhe",
-    "phone": "",
-    "birthday_date": "10/10/2000",
-    "rol": "normal",
-    "profile_image": "",
-    "country": "mexico",
-    "active": true,
-    "verified": false
-  },
-  {
     "id": "8dd772dc-8da0-45f9-9766-5ab6651dd0c7",
     "first_name": "user2",
     "last_name": "user2",
@@ -91,25 +63,33 @@ const getUserById = async (id) => {
 }
 // TODO REVISAR EL HTTP de register
 const createUser = async (data) => {
-   const newUser = await Users.create({
-    id: uuid.v4(), 
-    first_name: data.first_name,
-    last_name: data.last_name,
-    email: data.email,
+  
+  const newUser = await Users.create({
+    ...data,
+    id: uuid.v4(),
     password: hashPassword(data.password),
-    phone: data.phone,
-    birthday_date: data.birthday_date,
-    rol: 'normal',
-    profile_image: data.profile_image,
-    country: data.country,
-    active: true,
+    role: 'normal',
+    status: 'active',
     verified: false,
   })
+  // const newUser = await Users.create({
+  //   id: uuid.v4(),
+  //   firstName: data.firstName,
+  //   lastName: data.lastName,
+  //   email: data.email,
+  //   password: hashPassword(data.password),
+  //   phone: data.phone,
+  //   birthdayDate: data.birthdayDate,
+  //   role: 'normal',
+  //   profileImage: data.profileImage,
+  //   country: data.country,
+  //   status:'active',
+  //   verified: false,
+  //   gender:data.gender
+  // })
 
-  
-
-  userDB.push(newUser);
   return newUser;
+
 }
 
 const editUser = (id, data) => {
@@ -136,15 +116,14 @@ const editUser = (id, data) => {
   }
 }
 
-const deleteUser = (id) => {
-  const index = userDB.findIndex(user => user.id === id);
+const deleteUser = async(id) => {
+  const data = await Users.destroy({
+    where:{
+      id:id
+    }
+  })
 
-  if (index !== -1) {
-    userDB.splice(index, 1);
-    return true;
-  } else {
-    return false;
-  }
+  return data;
 
 }
 

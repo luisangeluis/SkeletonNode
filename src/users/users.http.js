@@ -38,11 +38,11 @@ const register = (req, res) => {
   }
 
   if (
-    !data.first_name ||
-    !data.last_name ||
+    !data.firstName ||
+    !data.lastName ||
     !data.email ||
     !data.password ||
-    !data.birthday_date ||
+    !data.birthdayDate ||
     !data.country
   ) {
     return res.status(400).json({
@@ -65,7 +65,7 @@ const register = (req, res) => {
         })
       })
       .catch(err => {
-        res.status(400).json({ err })
+        res.status(400).json({ message: err.errors[0].message })
       })
 
   }
@@ -73,13 +73,15 @@ const register = (req, res) => {
 
 const remove = (req, res) => {
   const id = req.params.id;
-  const data = userControllers.deleteUser(id);
-
-  if (data) {
-    return res.status(204).json();
-  } else {
-    return res.status(400).json({ message: 'Invalid ID' });
-  }
+  userControllers.deleteUser(id)
+    .then(response => {
+      if (response) {
+        return res.status(204).json();
+      }
+      else {
+        return res.status(400).json({ message: 'Invalid Id' });
+      }
+    })
 };
 
 const edit = (req, res) => {
