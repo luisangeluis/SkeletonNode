@@ -154,14 +154,7 @@ const deleteUser = async (id) => {
 }
 
 const getUserByEmail = async(email) => {
-  const response = await Users.findOne({
-    where: {
-      email
-    },
-    attributes: {
-      exclude: ['password']
-    }
-  })
+  const response = await Users.findOne({where: {email}});
   return response;
   // const data = userDB.filter(item => item.email === email);
   // return data.length > 0 ? data[0] : false;
